@@ -43,9 +43,10 @@ export default class CommentsDAO {
    */
   static async addComment(movieId, user, comment, date) {
     try {
-      // TODO Ticket: Create/Update Comments
+      // TODO Ticket: Create/Update Comments DONE
       // Construct the comment document to be inserted into MongoDB.
-      const commentDoc = { someField: "someValue" }
+      const { name, email } = user
+      const commentDoc = { movie_id: new ObjectId(movieId), email, name, date: date, text: comment }
 
       return await comments.insertOne(commentDoc)
     } catch (e) {
@@ -66,12 +67,12 @@ export default class CommentsDAO {
    */
   static async updateComment(commentId, userEmail, text, date) {
     try {
-      // TODO Ticket: Create/Update Comments
+      // TODO Ticket: Create/Update Comments DONE
       // Use the commentId and userEmail to select the proper comment, then
       // update the "text" and "date" fields of the selected comment.
       const updateResponse = await comments.updateOne(
-        { someField: "someValue" },
-        { $set: { someOtherField: "someOtherValue" } },
+        { _id: new ObjectId(commentId), email: userEmail },
+        { $set: { text, date: date } },
       )
 
       return updateResponse
