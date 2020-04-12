@@ -247,6 +247,8 @@ export default class MoviesDAO {
     try {
       cursor = await movies
         .find(query)
+        .limit(moviesPerPage)
+        .skip(page * moviesPerPage) // paging 0*20 = 0 so skip zero, page 1 = 1*20 so skip first 20
         .project(project)
         .sort(sort)
     } catch (e) {
